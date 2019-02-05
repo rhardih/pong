@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :protocol %>
-    <%= form.text_field :protocol %>
+    <%= form.select :protocol, Check.protocols, {}, class: "ui fluid dropdown" %>
   </div>
 
   <div class="field">
