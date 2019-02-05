@@ -62,3 +62,9 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'semantic-ui-sass', '~> 2.4.0.1'
+gem 'resque', '~> 2.0.0'
+# Use git master for now, since 4.3.1 has a hard hard dependency:
+#     resque-scheduler (~> 4.3.1) was resolved to 4.3.1, which depends on
+#           resque (~> 1.26)
+#gem 'resque-scheduler', '~> 4.3.1'
+gem 'resque-scheduler', git: 'https://github.com/resque/resque-scheduler'

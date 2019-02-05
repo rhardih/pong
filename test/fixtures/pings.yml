@@ -1,0 +1,11 @@
+default: &default
+  response_time: 42
+
+zero_minutes_old:
+  <<: *default
+  check: fresh
+
+five_minute_old:
+  <<: *default
+  check: expired
+  created_at: <%= 5.minutes.ago.to_s(:db) %>

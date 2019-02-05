@@ -1,15 +1,40 @@
-version: '3'
+version: '3.4'
+
+x-default: &default
+  build: .
+  volumes:
+    - .:/pong
+  depends_on:
+    - db
+    - redis
+  environment:
+    - RAILS_RESQUE_REDIS=redis://redis:6379
+
 services:
+  redis:
+    image: redis:5.0.3-alpine
+    ports:
+      - "6379:6379"
   db:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
   web:
-    build: .
+    <<: *default
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    volumes:
-      - .:/pong
     ports:
       - "3000:3000"
-    depends_on:
-      - db
+  test:
+    <<: *default
+    command: bin/spring server
+    environment:
+      - RAILS_ENV=test
+  worker:
+    <<: *default
+    command: rake resque:work
+    environment:
+      - RAILS_RESQUE_REDIS=redis://redis:6379
+      - QUEUE=*
+  scheduler:
+    <<: *default
+    command: rake resque:scheduler

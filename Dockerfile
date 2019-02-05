@@ -4,7 +4,8 @@ RUN apk add --update \
       build-base \
       nodejs \
       postgresql-dev \
-      tzdata
+      tzdata \
+      git
 
 RUN mkdir /pong
 WORKDIR /pong

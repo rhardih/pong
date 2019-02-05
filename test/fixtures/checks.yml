@@ -1,0 +1,16 @@
+# No pings yet
+default: &default
+  name: Default
+  interval: 1
+  protocol: https
+  url: example.com
+
+# One ping with no age
+fresh:
+  <<: *default
+  name: Fresh
+
+# One ping with an age of five minutes
+expired:
+  <<: *default
+  name: Expired

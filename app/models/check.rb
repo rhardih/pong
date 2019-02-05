@@ -1,4 +1,14 @@
 class Check < ApplicationRecord
+  has_many :pings
+
+  scope :stale, -> do
+    clauses = [
+      "pings.created_at < now() - checks.interval * interval '1 min'",
+      "pings.id IS NULL"
+    ]
+    left_joins(:pings).where(clauses.join(" OR ")).distinct
+  end
+
   def self.protocols
     ["https", "http"]
   end
