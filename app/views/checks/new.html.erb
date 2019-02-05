@@ -1,5 +1,9 @@
-<h1>New Check</h1>
-
-<%= render 'form', check: @check %>
-
-<%= link_to 'Back', checks_path %>
+<div class="ui grid">
+  <div class="row">
+    <h1>New Check</h1>
+  </div>
+  <div class="ui divider"></div>
+  <div class="row">
+    <%= render 'form', check: @check %>
+  </div>
+</div>

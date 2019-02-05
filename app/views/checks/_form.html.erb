@@ -1,4 +1,4 @@
-<%= form_with(model: check, local: true) do |form| %>
+<%= form_with(model: check, local: true, class: "ui form") do |form| %>
   <% if check.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(check.errors.count, "error") %> prohibited this check from being saved:</h2>
@@ -32,6 +32,8 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= link_to 'Back', checks_path %>
+
+    <%= form.submit class: "ui primary button" %>
   </div>
 <% end %>

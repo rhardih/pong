@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
+<% unless notice.nil? %>
+<div class="ui message">
+  <p id="notice"><%= notice %></p>
+</div>
+<% end %>
 
 <p>
   <strong>Name:</strong>

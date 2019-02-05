@@ -10,6 +10,20 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="ui grid">
+      <div class="row">
+        <div class="column" id="sidebar">
+          <div class="ui secondary vertical fluid menu">
+            <a class="active item">Checks</a>
+            <div class="ui hidden divider"></div>
+          </div>
+        </div>
+        <div class="column" id="content">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <style type="text/css"></style>
+
   </body>
 </html>
