@@ -1,10 +1,14 @@
-<% unless notice.nil? %>
-<div class="ui message">
-	<p id="notice"><%= notice %></p>
-</div>
-<% end %>
-
 <div class="ui grid">
+  <div class="row">
+    <% unless notice.nil? %>
+      <div class="ui positive message">
+        <i class="close icon"></i>
+        <div class="header">Success!</div>
+        <p id="notice"><%= notice %></p>
+      </div>
+    <% end %>
+  </div>
+
   <div class="row">
     <h1 class="ui huge header">Checks</h1>
   </div>

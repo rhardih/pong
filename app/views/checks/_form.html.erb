@@ -1,12 +1,14 @@
 <%= form_with(model: check, local: true, class: "ui form") do |form| %>
   <% if check.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(check.errors.count, "error") %> prohibited this check from being saved:</h2>
-
-      <ul>
-      <% check.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+    <div class="ui error message visible">
+      <i class="close icon"></i>
+      <div class="header">
+        <%= pluralize(check.errors.count, "error") %> prohibited this check from being saved:
+      </div>
+      <ul class="list">
+        <% check.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
