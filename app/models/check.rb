@@ -1,0 +1,2 @@
+class Check < ApplicationRecord
+end
