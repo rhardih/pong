@@ -7,8 +7,8 @@ x-default: &default
   depends_on:
     - db
     - redis
-  environment:
-    - RAILS_RESQUE_REDIS=redis://redis:6379
+  env_file:
+    - .env
 
 services:
   redis:
@@ -33,7 +33,6 @@ services:
     <<: *default
     command: rake resque:work
     environment:
-      - RAILS_RESQUE_REDIS=redis://redis:6379
       - QUEUE=*
   scheduler:
     <<: *default
