@@ -1,7 +1,7 @@
 version: '3.4'
 
 x-default: &default
-  build: .
+  image: web
   volumes:
     - .:/pong
   depends_on:
@@ -21,11 +21,13 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
   web:
     <<: *default
+    build: .
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - "3000:3000"
   test:
     <<: *default
+    image: web
     command: bin/spring server
     environment:
       - RAILS_ENV=test
