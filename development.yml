@@ -1,0 +1,23 @@
+version: '3.4'
+
+x-default: &default
+  image: web
+  volumes:
+    - .:/pong
+  depends_on:
+    - db
+    - redis
+  env_file:
+    - .env
+
+services:
+  test:
+    <<: *default
+    image: web
+    command: bin/spring server
+    environment:
+      - RAILS_ENV=test
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080

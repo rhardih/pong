@@ -2,8 +2,7 @@ version: '3.4'
 
 x-default: &default
   image: web
-  volumes:
-    - .:/pong
+  restart: always
   depends_on:
     - db
     - redis
@@ -19,17 +18,23 @@ services:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=pong
+      - POSTGRES_DB=pong_production
   web:
     <<: *default
     build: .
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - "3000:3000"
+    environment:
+      - RAILS_ENV=production
   worker:
     <<: *default
     command: rake resque:work
     environment:
       - QUEUE=*
+      - RAILS_ENV=production
   scheduler:
     <<: *default
     command: rake resque:scheduler
