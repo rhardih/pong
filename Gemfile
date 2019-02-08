@@ -56,6 +56,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'webmock', '~> 3.5.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -68,3 +69,5 @@ gem 'resque', '~> 2.0.0'
 #           resque (~> 1.26)
 #gem 'resque-scheduler', '~> 4.3.1'
 gem 'resque-scheduler', git: 'https://github.com/resque/resque-scheduler'
+
+gem 'mailgun-ruby', '~>1.1.6'

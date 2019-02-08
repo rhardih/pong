@@ -39,3 +39,7 @@ services:
   scheduler:
     <<: *default
     command: rake resque:scheduler
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080
