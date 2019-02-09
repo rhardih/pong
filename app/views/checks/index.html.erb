@@ -21,20 +21,19 @@
           <th>Interval</th>
           <th>Protocol</th>
           <th>Url</th>
-          <th colspan="3"></th>
+          <th colspan="2"></th>
         </tr>
       </thead>
 
       <tbody>
         <% @checks.each do |check| %>
           <tr>
-            <td><%= check.name %></td>
+            <td><%= link_to check.name, check %></td>
             <td><%= check.interval %></td>
             <td><%= check.protocol %></td>
             <td><%= check.url %></td>
-            <td><%= link_to 'Show', check %></td>
-            <td><%= link_to 'Edit', edit_check_path(check) %></td>
-            <td><%= link_to 'Destroy', check, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Edit', edit_check_path(check), class: 'ui button' %></td>
+            <td><%= link_to 'Destroy', check, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button negative' %></td>
           </tr>
         <% end %>
       </tbody>
@@ -42,6 +41,6 @@
 
     <br>
 
-    <%= link_to 'New Check', new_check_path %>
+    <%= link_to 'Add new', new_check_path, class: 'ui primary button' %>
   </div>
 </div>
