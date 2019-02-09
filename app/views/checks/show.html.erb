@@ -43,6 +43,10 @@
   </div>
 
   <div class="row">
+    <%= area_chart @chart_data, ytitle: "Response time" %>
+  </div>
+
+  <div class="row">
     <%= link_to 'Edit', edit_check_path(@check) %> |
     <%= link_to 'Back', checks_path %>
   </div>

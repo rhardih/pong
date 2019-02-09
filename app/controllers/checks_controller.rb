@@ -8,6 +8,14 @@ class ChecksController < ApplicationController
 
   # GET /checks/1
   def show
+    response_time_95p = Ping.percentile_for(@check, 0.95)
+
+    @chart_data = @check.pings.where(
+      "response_time < ? AND created_at > ?", response_time_95p, 7.days.ago
+    ).group_by_hour(:created_at, series: false).
+      average(:response_time)
+
+    @chart_data.each { |k, v| @chart_data[k]  = v.round }
   end
 
   # GET /checks/new
