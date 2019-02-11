@@ -38,7 +38,7 @@ class RequestJob < ApplicationJob
     end
 
   rescue Exception => e
-    #logger.error(e)
+    logger.error(e)
 
     update_availability(check, false)
   end
