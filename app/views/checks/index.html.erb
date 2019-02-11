@@ -1,46 +1,44 @@
-<div class="ui grid">
-  <% unless notice.nil? %>
-    <div class="row">
-      <div class="ui positive message">
-        <i class="close icon"></i>
-        <div class="header">Success!</div>
-        <p id="notice"><%= notice %></p>
-      </div>
+<% unless notice.nil? %>
+  <div class="row">
+    <div class="ui positive message">
+      <i class="close icon"></i>
+      <div class="header">Success!</div>
+      <p id="notice"><%= notice %></p>
     </div>
-  <% end %>
-
-  <div class="row">
-    <h1 class="ui huge header">Checks</h1>
   </div>
-  <div class="ui divider"></div>
-  <div class="row">
-    <table class="ui single line striped selectable table">
-      <thead>
+<% end %>
+
+<div class="row">
+  <h1 class="ui huge header">Checks</h1>
+</div>
+<div class="ui divider"></div>
+<div class="row">
+  <table class="ui single line striped selectable table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Interval</th>
+        <th>Protocol</th>
+        <th>Url</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @checks.each do |check| %>
         <tr>
-          <th>Name</th>
-          <th>Interval</th>
-          <th>Protocol</th>
-          <th>Url</th>
-          <th colspan="2"></th>
+          <td><%= link_to check.name, check %></td>
+          <td><%= check.interval %></td>
+          <td><%= check.protocol %></td>
+          <td><%= check.url %></td>
+          <td><%= link_to 'Edit', edit_check_path(check), class: 'ui button' %></td>
+          <td><%= link_to 'Destroy', check, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button negative' %></td>
         </tr>
-      </thead>
+      <% end %>
+    </tbody>
+  </table>
 
-      <tbody>
-        <% @checks.each do |check| %>
-          <tr>
-            <td><%= link_to check.name, check %></td>
-            <td><%= check.interval %></td>
-            <td><%= check.protocol %></td>
-            <td><%= check.url %></td>
-            <td><%= link_to 'Edit', edit_check_path(check), class: 'ui button' %></td>
-            <td><%= link_to 'Destroy', check, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button negative' %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <br>
 
-    <br>
-
-    <%= link_to 'Add new', new_check_path, class: 'ui primary button' %>
-  </div>
+  <%= link_to 'Add new', new_check_path, class: 'ui primary button' %>
 </div>

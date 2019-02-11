@@ -1,14 +1,14 @@
-<div class="ui grid">
-  <div class="row">
-    <h1>Editing Check</h1>
-  </div>
-  <div class="ui divider"></div>
-  <div class="row">
+<div class="row">
+  <h1>Editing Check</h1>
+</div>
 
-    <%= render 'form', check: @check %>
+<div class="ui divider"></div>
 
-    <%= link_to 'Show', @check %> |
-    <%= link_to 'Back', checks_path %>
+<div class="row">
 
-  </div>
+  <%= render 'form', check: @check %>
+
+  <%= link_to 'Show', @check %> |
+  <%= link_to 'Back', checks_path %>
+
 </div>

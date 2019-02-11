@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <div class="ui grid">
+    <div class="ui grid container">
       <div class="row">
         <div class="column" id="sidebar">
           <div class="ui secondary vertical fluid menu">
@@ -18,7 +18,7 @@
             <div class="ui hidden divider"></div>
           </div>
         </div>
-        <div class="column" id="content">
+        <div class="ui column grid" id="content">
           <%= yield %>
         </div>
       </div>
