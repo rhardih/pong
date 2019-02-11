@@ -33,9 +33,11 @@
     <%= form.text_field :url %>
   </div>
 
-  <div class="actions">
-    <%= link_to 'Back', checks_path %>
+  <div class="ui grid">
+    <div class="column right aligned actions">
+      <%= link_to 'Back', checks_path %>
 
-    <%= form.submit 'Create check', class: "ui primary button" %>
+      <%= form.submit submit_label, class: "ui primary button" %>
+    </div>
   </div>
 <% end %>

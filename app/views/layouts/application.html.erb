@@ -10,20 +10,8 @@
   </head>
 
   <body>
-    <div class="ui grid container">
-      <div class="row">
-        <div class="column" id="sidebar">
-          <div class="ui secondary vertical fluid menu">
-            <%= active_link_to 'Checks', checks_path, class: 'item' %>
-            <div class="ui hidden divider"></div>
-          </div>
-        </div>
-        <div class="ui column grid" id="content">
-          <%= yield %>
-        </div>
-      </div>
+    <div class="ui grid stackable container" id="content">
+      <%= yield %>
     </div>
-    <style type="text/css"></style>
-
   </body>
 </html>

@@ -1,18 +1,15 @@
-<% unless notice.nil? %>
-  <div class="row">
+<div class="sixteen wide column">
+  <h1 class="ui header">Checks</h1>
+  <div class="ui divider"></div>
+
+  <% unless notice.nil? %>
     <div class="ui positive message">
       <i class="close icon"></i>
       <div class="header">Success!</div>
       <p id="notice"><%= notice %></p>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<div class="row">
-  <h1 class="ui huge header">Checks</h1>
-</div>
-<div class="ui divider"></div>
-<div class="row">
   <table class="ui single line striped selectable table">
     <thead>
       <tr>
@@ -20,7 +17,8 @@
         <th>Interval</th>
         <th>Protocol</th>
         <th>Url</th>
-        <th colspan="2"></th>
+        <th class="center aligned">Available</th>
+        <th class="center aligned"colspan="2">Actions</th>
       </tr>
     </thead>
 
@@ -31,8 +29,23 @@
           <td><%= check.interval %></td>
           <td><%= check.protocol %></td>
           <td><%= check.url %></td>
-          <td><%= link_to 'Edit', edit_check_path(check), class: 'ui button' %></td>
-          <td><%= link_to 'Destroy', check, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button negative' %></td>
+          <td class="center aligned">
+            <% if check.available? %>
+              <i class="thumbs up icon green"></i>
+            <% else %>
+              <i class="thumbs down icon red"></i>
+            <% end %>
+          </td>
+          <td class="center aligned">
+            <%= link_to edit_check_path(check), title: 'Edit' do %>
+              <i class="edit icon"></i>
+            <% end %>
+          </td>
+          <td class="center aligned">
+            <%= link_to check, method: :delete, data: { confirm: 'Are you sure?' }, title: 'Destroy' do %>
+              <i class="close icon red"></i>
+              <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

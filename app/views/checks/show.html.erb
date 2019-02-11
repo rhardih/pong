@@ -1,66 +1,87 @@
-<% unless notice.nil? %>
-  <div class="row">
-    <div class="ui positive message">
-      <i class="close icon"></i>
-      <div class="header">Success!</div>
-      <p id="notice"><%= notice %></p>
+<div class="column">
+  <div class="ui grid">
+    <div class="row">
+      <div class="twelve wide column">
+        <h1 class="ui header"><%= @check.name %></h1>
+      </div>
+      <div class="four wide column middle aligned right aligned">
+      <%= link_to edit_check_path(@check), title: 'Edit' do %>
+        <i class="edit icon large"></i>
+      <% end %>
+      </div>
     </div>
   </div>
-<% end %>
 
-<div class="row">
-  <h1>New Check</h1>
-</div>
+  <div class="ui divider"></div>
 
-<div class="ui divider"></div>
+  <div class="row ui stackable grid">
+    <% unless notice.nil? %>
+      <div class="sixteen wide column">
+        <div class="ui positive message">
+          <i class="close icon"></i>
+          <div class="header">Success!</div>
+          <p id="notice"><%= notice %></p>
+        </div>
+      </div>
+    <% end %>
+    <div class="six wide column">
+      <h2 class="ui header">Info</h2>
+      <table class="ui table">
+        <tbody>
+          <tr>
+            <td><strong>Interval:</strong></td>
+            <td class="right aligned"><%= @check.interval %></td>
+          </tr>
+          <tr>
+            <td><strong>Protocol:</strong></td>
+            <td class="right aligned"><%= @check.protocol %></td>
+          </tr>
+          <tr>
+            <td><strong>Url:</strong></td>
+            <td class="right aligned"><%= @check.url %></td>
+          </tr>
+          <tr>
+            <td><strong>Available:</strong></td>
+            <td class="right aligned">
+              <% if @check.available? %>
+                <i class="thumbs up icon green"></i>
+              <% else %>
+                <i class="thumbs down icon red"></i>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-<div class="row">
-  <p>
-  <strong>Name:</strong>
-  <%= @check.name %>
-  </p>
-</div>
+    <div class="ten wide column">
+      <h2 class="ui header">Availability</h2>
 
-<div class="row">
-  <p>
-  <strong>Interval:</strong>
-  <%= @check.interval %>
-  </p>
-</div>
+      <div class="row ui grid">
+        <div class="six wide column middle aligned">
+          <h3>Percentile filter</h3>
+        </div>
 
-<div class="row">
-  <p>
-  <strong>Protocol:</strong>
-  <%= @check.protocol %>
-  </p>
-</div>
+        <div class="ten wide column">
+          <div class="three ui buttons">
+            <%= link_to 'None', @check, class: "ui button attached #{percentile_active}" %>
+            <%= link_to '95', check_path(@check, p: 0.95), class: "ui button attached #{percentile_active(value: 0.95)}" %>
+            <%= link_to '75', check_path(@check, p: 0.75), class: "ui button attached #{percentile_active(value: 0.75)}" %>
+          </div>
+        </div>
+      </div>
 
-<div class="row">
-  <p>
-  <strong>Url:</strong>
-  <%= @check.url %>
-  </p>
-</div>
 
-<div class="row">
-  <h2>Percentiles</h2>
-</div>
+      <div class="ui hidden divider"></div>
 
-<div class="row ui grid stackable">
-  <div class="eight wide column">
-    <div class="three ui buttons">
-      <%= link_to 'No filter', @check, class: "ui button attached #{percentile_active}" %>
-      <%= link_to '95', check_path(@check, p: 0.95), class: "ui button attached #{percentile_active(value: 0.95)}" %>
-      <%= link_to '75', check_path(@check, p: 0.75), class: "ui button attached #{percentile_active(value: 0.75)}" %>
+      <%= area_chart @chart_data, ytitle: "Response time" %>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= link_to 'Back', checks_path %>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <%= area_chart @chart_data, ytitle: "Response time" %>
-</div>
-
-<div class="row">
-  <%= link_to 'Edit', edit_check_path(@check), class: 'ui button positive' %>
-  <%= link_to 'Back', checks_path %>
-</div>
