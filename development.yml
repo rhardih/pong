@@ -11,6 +11,9 @@ x-default: &default
     - .env
 
 services:
+  web:
+    <<: *default
+    build: .
   test:
     <<: *default
     image: web
