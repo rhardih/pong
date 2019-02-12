@@ -1,5 +1,7 @@
 # Pong
 
+[![Build Status](https://travis-ci.org/rhardih/pong.svg?branch=master)](https://travis-ci.org/rhardih/pong)
+
 A minimal availability monitoring system with basic email alerts.
 
 ## System dependencies
