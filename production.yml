@@ -10,10 +10,7 @@ x-default: &default
     - .env
 
 services:
-  redis:
-    image: redis:5.0.3-alpine
   db:
-    image: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
