@@ -1,3 +1,3 @@
-Alert#up_email
+Pong Alert
 
-<%= @greeting %>, find me in app/views/alert_mailer/up_email.text.erb
+<%= @check.name %> is up again at <%= @ultimate.created_at %><% unless @penultimate.nil? %>, after <%= distance_of_time_in_words(@penultimate.created_at, @ultimate.created_at) %> of downtime<% end %>.

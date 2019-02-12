@@ -1,5 +1,5 @@
-<h1>Alert#down_email</h1>
+<h1>Pong Alert</h1>
 
 <p>
-  <%= @greeting %>, find me in app/views/alert_mailer/down_email.html.erb
+<strong><%= @check.name %></strong> is down.<% unless @last.nil? %> Last seen at <%= @last.created_at %>.<% end %>
 </p>

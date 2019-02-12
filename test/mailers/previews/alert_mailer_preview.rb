@@ -2,11 +2,11 @@
 class AlertMailerPreview < ActionMailer::Preview
 
   def up_email
-    AlertMailer.with(check: Check.last).up_email
+    AlertMailer.with(check: Check.first).up_email
   end
 
   def down_email
-    AlertMailer.with(check: Check.last).down_email
+    AlertMailer.with(check: Check.first).down_email
   end
 
 end

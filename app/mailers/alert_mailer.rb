@@ -1,14 +1,16 @@
 class AlertMailer < ApplicationMailer
+  include ActionView::Helpers::DateHelper
+
   def up_email
-    @greeting = "Hi"
     @check = params[:check]
+    @penultimate, @ultimate = @check.pings.limit(2).order('id desc')
 
     mail to: default_receiver, subject: "UP alert: #{@check.name} (#{@check.url}) is UP"
   end
 
   def down_email
-    @greeting = "Hi"
     @check = params[:check]
+    @last = @check.pings.last
 
     mail to: default_receiver, subject: "DOWN alert: #{@check.name} (#{@check.url}) is DOWN"
   end

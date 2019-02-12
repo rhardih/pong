@@ -1,5 +1,7 @@
-<h1>Alert#up_email</h1>
+<h1>Pong Alert</h1>
 
 <p>
-  <%= @greeting %>, find me in app/views/alert_mailer/up_email.html.erb
+<strong><%= @check.name %></strong> is up again at <%= @ultimate.created_at %><% unless @penultimate.nil? %>
+, after <%= distance_of_time_in_words(@penultimate.created_at, @ultimate.created_at) %> of downtime
+<% end %>.
 </p>
