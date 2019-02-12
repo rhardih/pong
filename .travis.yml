@@ -11,4 +11,4 @@ before_install:
   - docker-compose exec test bin/rake db:migrate
 
 script:
-  - docker-compose exec test bin/rake test
+  - docker-compose exec -e "EMAIL_RECEIVER=travis@example.com" test bin/rake test
