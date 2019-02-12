@@ -3,7 +3,7 @@ class ChecksController < ApplicationController
 
   # GET /checks
   def index
-    @checks = Check.all
+    @checks = Check.order(:name)
   end
 
   # GET /checks/1
