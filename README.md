@@ -4,6 +4,10 @@
 
 A minimal availability monitoring system with basic email alerts.
 
+![Index](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/index.png)|![Show](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/show.png)
+|:-:|:-:|
+![Down alert](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/email_down.png)|![Up alert](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/email_up.png)
+
 ## System dependencies
 
 Pong is a dockerized Rails application run via docker-compose, so both
