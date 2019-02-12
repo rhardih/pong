@@ -1,0 +1,14 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker-compose build web
+  - docker-compose up -d test
+  - docker-compose exec db sh -c 'while ! pg_isready; do >&2 echo "Postgres is unavailable - sleeping"; sleep 1; done'
+  - docker-compose exec test bin/rake db:create
+  - docker-compose exec test bin/rake db:migrate
+
+script:
+  - docker-compose exec test bin/rake test
