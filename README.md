@@ -23,8 +23,8 @@ ActionMailer. There's no specific reason other than easy integration via
 mailgun-ruby, and because they have a free plan with more than enough monthly
 sends for the purpose of occasional email alerts.
 
-Since the free plan doesn't allow ad-hoc delivery, it's necessary to the alert
-receiver as an [Authorized
+Since the free plan doesn't allow ad-hoc delivery, it's necessary to add the
+alert receiver as an [Authorized
 Recipient](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients)
 in the mailgun account settings.
 
