@@ -60,7 +60,7 @@ PROD_IMAGE=rhardih/pong:latest
 Bring up all compose services with:
 
 ```bash
-docker-compuse up -d
+docker-compose up -d
 ```
 
 ### Database creation & initialization
