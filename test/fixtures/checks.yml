@@ -14,3 +14,7 @@ fresh:
 expired:
   <<: *default
   name: Expired
+
+up:
+  <<: *default
+  name: Up
