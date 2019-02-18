@@ -74,3 +74,5 @@ gem 'mailgun-ruby', '~>1.1.6'
 
 gem 'groupdate', '~> 4.1.1'
 gem "chartkick", '~> 3.0.2'
+
+gem 'telegram-bot-ruby', '~> 0.8.6.1'
