@@ -9,3 +9,12 @@ five_minute_old:
   <<: *default
   check: expired
   created_at: <%= 5.minutes.ago.to_s(:db) %>
+
+foo:
+  <<: *default
+  check: up
+
+bar:
+  <<: *default
+  check: up
+  created_at: <%= 5.minutes.ago.to_s(:db) %>
