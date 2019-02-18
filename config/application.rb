@@ -17,4 +17,8 @@ module Pong
     # the framework and any gems in your application.
     config.active_job.queue_adapter = :resque
   end
+
+  def self.telegram_enabled?
+    ENV.key?('TELEGRAM_API_KEY') && ENV.key?('TELEGRAM_CHAT_ID')
+  end
 end
