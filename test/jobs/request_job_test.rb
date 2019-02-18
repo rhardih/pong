@@ -69,4 +69,28 @@ class RequestJobTest < ActiveJob::TestCase
       assert enqueued_jobs.first[:args][0...2] == ["AlertMailer", "down_email"]
     #end
   end
+
+  test "that TelegramNotificationJob is enqueued if enabled" do
+    check = checks(:default)
+    stub_request(:any, "#{check.protocol}://#{check.url}")
+
+    Pong.stub(:telegram_enabled?, true) do
+      assert_enqueued_with(job: TelegramNotificationJob, args: [check, available: true]) do
+        RequestJob.perform_now(check)
+      end
+
+      assert_enqueued_jobs 2 # AlertMailer as well
+    end
+  end
+
+
+  test "that no TelegramNotificationJob is enqueued if disabled" do
+    check = checks(:default)
+    stub_request(:any, "#{check.protocol}://#{check.url}")
+
+    Pong.stub(:telegram_enabled?, false) do
+      RequestJob.perform_now(check)
+      assert_enqueued_jobs 1 # only AlertMailer
+    end
+  end
 end

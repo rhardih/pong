@@ -11,6 +11,10 @@ class RequestJob < ApplicationJob
       else
         AlertMailer.with(check: check).down_email.deliver_later
       end
+
+      if Pong.telegram_enabled?
+        TelegramNotificationJob.perform_later(check, available: value)
+      end
     end
 
     check.update(available: value)
