@@ -1,5 +1,5 @@
 class Check < ApplicationRecord
-  has_many :pings
+  has_many :pings, dependent: :delete_all
 
   scope :stale, -> do
     clauses = [
