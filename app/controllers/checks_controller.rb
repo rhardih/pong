@@ -16,7 +16,9 @@ class ChecksController < ApplicationController
       ).group_by_hour(:created_at, series: false).
         average(:response_time)
     else
-      @chart_data = @check.pings.group_by_hour(:created_at, series: false).
+      @chart_data = @check.pings.where(
+        "created_at > ?", 7.days.ago
+      ).group_by_hour(:created_at, series: false).
         average(:response_time)
     end
 
