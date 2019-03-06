@@ -64,13 +64,26 @@
 
         <div class="ten wide column">
           <div class="three ui buttons">
-            <%= link_to 'None', @check, class: "ui button attached #{percentile_active}" %>
-            <%= link_to '95', check_path(@check, p: 0.95), class: "ui button attached #{percentile_active(value: 0.95)}" %>
-            <%= link_to '75', check_path(@check, p: 0.75), class: "ui button attached #{percentile_active(value: 0.75)}" %>
+            <%= link_to 'None', check_path(@check, filter_params.except(:p)), class: "ui button attached #{active(key: :p)}" %>
+            <%= link_to '95', check_path(@check, filter_params.merge(p: 0.95)), class: "ui button attached #{active(key: :p, value: 0.95)}" %>
+            <%= link_to '75', check_path(@check, filter_params.merge(p: 0.75)), class: "ui button attached #{active(key: :p, value: 0.75)}" %>
           </div>
         </div>
       </div>
 
+      <div class="row ui grid">
+        <div class="six wide column middle aligned">
+          <h3>Day range filter</h3>
+        </div>
+
+        <div class="ten wide column">
+          <div class="three ui buttons">
+            <%= link_to '7', check_path(@check, filter_params.except(:d)), class: "ui button attached #{active(key: :d)}" %>
+            <%= link_to '5', check_path(@check, filter_params.merge(d: 5)), class: "ui button attached #{active(key: :d, value: '5')}" %>
+            <%= link_to '3', check_path(@check, filter_params.merge(d: 3)), class: "ui button attached #{active(key: :d, value: '3')}" %>
+          </div>
+        </div>
+      </div>
 
       <div class="ui hidden divider"></div>
 

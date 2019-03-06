@@ -9,18 +9,25 @@ class ChecksController < ApplicationController
   # GET /checks/1
   def show
     if params.key?(:p)
-      selection = Ping.percentile_for(@check, params[:p].to_f)
+      rt_limit = Ping.percentile_for(@check, params[:p].to_f)
 
-      @chart_data = @check.pings.where(
-        "response_time < ? AND created_at > ?", selection, 7.days.ago
-      ).group_by_hour(:created_at, series: false).
-        average(:response_time)
+      selection = @check.pings.
+        where("response_time < ?", rt_limit)
     else
-      @chart_data = @check.pings.where(
-        "created_at > ?", 7.days.ago
-      ).group_by_hour(:created_at, series: false).
-        average(:response_time)
+      selection = @check.pings
     end
+
+    if params.key?(:d)
+      selection = selection.
+        where("created_at > ?", params[:d].to_i.days.ago)
+    else
+      selection = selection.
+        where("created_at > ?", 7.days.ago)
+    end
+
+    @chart_data = selection.
+      group_by_hour(:created_at, series: false).
+      average(:response_time)
 
     @chart_data.each { |k, v| @chart_data[k]  = v.round }
   end
