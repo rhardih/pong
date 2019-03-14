@@ -8,15 +8,17 @@ namespace :telegram do
       return
     end
 
-    Telegram::Bot::Client.run(ENV['TELEGRAM_API_KEY']) do |bot| bot.listen do |message|
-      case message.text
-      when '/start'
-        bot.api.send_message({
-          chat_id: message.chat.id,
-          text: "Hey, store this chat id in your environment:\n\nTELEGRAM_CHAT_ID=#{message.chat.id}"
-        })
+    Telegram::Bot::Client.run(ENV['TELEGRAM_API_KEY']) do |bot|
+      bot.listen do |message|
+        case message.text
+        when '/start'
+          bot.api.send_message({
+            chat_id: message.chat.id,
+            text: "Hi here,\n\nHere is your chat id:\n\nTELEGRAM_CHAT_ID=#{message.chat.id}"
+          })
+          exit
+        end
       end
-    end
     end
   end
 end
