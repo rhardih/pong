@@ -16,7 +16,9 @@ Pong is a dockerized Rails application run via docker-compose, so both
 
 ## Configuration
 
-### EMail
+### Notifications
+
+#### EMail
 
 By default Pong uses [mailgun](https://www.mailgun.com/) as delivery method for
 ActionMailer. There's no specific reason other than easy integration via
@@ -43,6 +45,20 @@ The sender is set as as default from address for all alerts, and the receiver is
 the target address for all alert mailings.
 
 For now Pong only supports a single global receiver.
+
+#### Push (via [Telegram](telegram.org))
+
+Pong supports push notifications, via direct chat messages over Telegram. This requires creating a dedicated [Telegram bot and corresponding API key](https://core.telegram.org/#bot-api).
+
+Here's the necessary steps:
+
+|&nbsp;|&nbsp;|
+|:--|---|
+|1. Open the application, search for *botfather* and start a chat. | ![Start chat](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/telegram0.png)|
+|2. Create a new bot by issuing the `/newbot` command. | ![Create new bot](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/telegram1.png) |
+|3. Go through the naming steps. Any name will do, but you'll need it shortly, so make it something you can remember. Once done, you'll be given a token to access the HTTP API.<br><br>4. Copy the API key into the the `.env` file for Pong.<br><br>5. We need the *id*, of the chat we're going to use for notifications. Pong includes a rake task, that runs the bot and replies with the id when a chat is started. Run this before the next step:<br><br>**$ docker-compose run web bin/rake telegram:run** | ![Copy api key](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/telegram2.png)|
+|6. Next open a chat with the newly created bot. Here you need the name you chose in step 3. | ![Open bot chat](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/telegram3.png)|
+|7. Upon joining the chat with the bot, you will be given the chat id we need.<br><br>8. Copy the chat id into the `.env` file, as you did with the api key and you're all set. Now Pong will send you notifications via this chat. | ![Get chat id](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/telegram4.png)|
 
 ### Docker image
 
