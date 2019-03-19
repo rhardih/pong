@@ -5,14 +5,14 @@ require 'telegram/bot'
 class TelegramNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(check, available:)
+  def perform(check, up:)
     key = ENV['TELEGRAM_API_KEY']
     mid = ENV['TELEGRAM_CHAT_ID']
 
     penultimate, ultimate = check.pings.limit(2).order('id desc')
 
     # Re-use the mailer views for convenience
-    if available
+    if up
       message = ApplicationController.renderer.render({
         template: 'alert_mailer/up_email.text',
         locals: {

@@ -4,22 +4,6 @@ require 'net/http'
 class RequestJob < ApplicationJob
   queue_as :default
 
-  def update_availability(check, value)
-    if (check.available != value)
-      if (value)
-        AlertMailer.with(check: check).up_email.deliver_later
-      else
-        AlertMailer.with(check: check).down_email.deliver_later
-      end
-
-      if Pong.telegram_enabled?
-        TelegramNotificationJob.perform_later(check, available: value)
-      end
-    end
-
-    check.update(available: value)
-  end
-
   def perform(check)
     uri = URI("#{check.protocol}://#{check.url}")
     req = Net::HTTP::Head.new(uri.request_uri)
@@ -29,21 +13,58 @@ class RequestJob < ApplicationJob
     http.open_timeout = 5
     res = nil
 
-    time = Benchmark.measure do
-      res = http.request(req)
-    end
+    time = Benchmark.measure { res = http.request(req) }
 
     case res
     when Net::HTTPSuccess
-      check.pings.create!(response_time: time.real * 1000)
-      update_availability(check, true)
+      success(check, time.real * 1000)
     else
-      update_availability(check, false)
+      failure(check)
     end
 
   rescue Exception => e
     logger.error(e)
 
-    update_availability(check, false)
+    failure(check)
+  end
+
+  def success(check, response_time)
+    check.pings.create!(response_time: response_time)
+    check.update!(retries: 0)
+
+    if check.down?
+      notify_up(check)
+      check.up!
+    end
+  end
+
+  def failure(check)
+    if check.up?
+      check.limbo!
+    elsif check.limbo?
+      if check.retries > Pong.retry_max
+        check.down!
+        check.update!(retries: 0)
+        notify_down(check)
+      else
+        check.update!(retries: check.retries + 1)
+      end
+    end
+  end
+
+  def notify_up(check)
+    AlertMailer.with(check: check).up_email.deliver_later
+
+    if Pong.telegram_enabled?
+      TelegramNotificationJob.perform_later(check, up: true)
+    end
+  end
+
+  def notify_down(check)
+    AlertMailer.with(check: check).down_email.deliver_later
+
+    if Pong.telegram_enabled?
+      TelegramNotificationJob.perform_later(check, up: false)
+    end
   end
 end

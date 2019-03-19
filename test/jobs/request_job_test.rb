@@ -7,7 +7,7 @@ class RequestJobTest < ActiveJob::TestCase
   fixtures :checks
 
   test "that a ping is created on success" do
-    check = checks(:default)
+    check = checks(:up)
     stub_request(:any, "#{check.protocol}://#{check.url}")
 
     assert_difference 'Ping.count' do
@@ -15,38 +15,58 @@ class RequestJobTest < ActiveJob::TestCase
     end
   end
 
-  test "that check is marked uavailable on exceptions (timeouts etc.)" do
-    check = checks(:default)
-    check.update(available: true)
+  test "that the check is put in limbo on exceptions (timeouts etc.)" do
+    check = checks(:up)
     stub_request(:any, "#{check.protocol}://#{check.url}").
       to_raise(Exception)
 
     RequestJob.perform_now(check)
 
-    assert_not(check.available)
+    assert(check.limbo?)
   end
 
-  test "that check is marked uavailable when unsuccesful" do
-    check = checks(:default)
+  test "that check is put in limbo when request is unsuccesful" do
+    check = checks(:up)
     stub_request(:any, "#{check.protocol}://#{check.url}").
       to_return(status: 404)
 
     RequestJob.perform_now(check)
 
-    assert_not(check.available)
+    assert(check.limbo?)
   end
 
-  test "that check is marked available on success" do
-    check = checks(:default)
+  test "that number of retries is incremented when request is unsuccesful" do
+    check = checks(:limbo)
+    stub_request(:any, "#{check.protocol}://#{check.url}").
+      to_return(status: 404)
+
+    assert_difference 'check.retries', 1 do
+      RequestJob.perform_now(check)
+    end
+  end
+
+  test "that check is marked as down when retry limit has been reached" do
+    check = checks(:limbo)
+    check.retries = Pong.retry_max + 1
+    stub_request(:any, "#{check.protocol}://#{check.url}").
+      to_return(status: 404)
+
+    RequestJob.perform_now(check)
+
+    assert(check.down?)
+  end
+
+  test "that check is marked as up on successful request" do
+    check = checks(:down)
     stub_request(:any, "#{check.protocol}://#{check.url}")
 
     RequestJob.perform_now(check)
 
-    assert(check.available)
+    assert(check.up?)
   end
 
-  test "that UP alert mail is delivered on positive availability change" do
-    check = checks(:default)
+  test "that UP alert mail is delivered when check comes back up" do
+    check = checks(:down)
     stub_request(:any, "#{check.protocol}://#{check.url}")
 
     # this helper doesn't work as expected for some reason
@@ -57,9 +77,9 @@ class RequestJobTest < ActiveJob::TestCase
     #end
   end
 
-  test "that DOWN alert mail is delivered on negative availability change" do
-    check = checks(:default)
-    check.update(available: true)
+  test "that DOWN alert mail is delivered when check goes down" do
+    check = checks(:limbo)
+    check.retries = Pong.retry_max + 1
     stub_request(:any, "#{check.protocol}://#{check.url}").
       to_return(status: 404)
 
@@ -70,27 +90,27 @@ class RequestJobTest < ActiveJob::TestCase
     #end
   end
 
-  test "that TelegramNotificationJob is enqueued if enabled" do
-    check = checks(:default)
+  test "that Telegram notification is delivered when check comes back up" do
+    check = checks(:down)
     stub_request(:any, "#{check.protocol}://#{check.url}")
 
     Pong.stub(:telegram_enabled?, true) do
-      assert_enqueued_with(job: TelegramNotificationJob, args: [check, available: true]) do
+      assert_enqueued_with(job: TelegramNotificationJob, args: [check, up: true]) do
         RequestJob.perform_now(check)
       end
-
-      assert_enqueued_jobs 2 # AlertMailer as well
     end
   end
 
+  test "that Telegram notification is delivered when check goes down" do
+    check = checks(:limbo)
+    check.retries = Pong.retry_max + 1
+    stub_request(:any, "#{check.protocol}://#{check.url}").
+      to_return(status: 404)
 
-  test "that no TelegramNotificationJob is enqueued if disabled" do
-    check = checks(:default)
-    stub_request(:any, "#{check.protocol}://#{check.url}")
-
-    Pong.stub(:telegram_enabled?, false) do
-      RequestJob.perform_now(check)
-      assert_enqueued_jobs 1 # only AlertMailer
+    Pong.stub(:telegram_enabled?, true) do
+      assert_enqueued_with(job: TelegramNotificationJob, args: [check, up: false]) do
+        RequestJob.perform_now(check)
+      end
     end
   end
 end

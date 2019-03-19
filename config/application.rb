@@ -21,4 +21,8 @@ module Pong
   def self.telegram_enabled?
     ENV.key?('TELEGRAM_API_KEY') && ENV.key?('TELEGRAM_CHAT_ID')
   end
+
+  def self.retry_max
+    return ENV['RETRY_MAX'].to_i || 3
+  end
 end

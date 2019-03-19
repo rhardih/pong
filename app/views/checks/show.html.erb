@@ -41,9 +41,9 @@
             <td class="right aligned"><%= @check.url %></td>
           </tr>
           <tr>
-            <td><strong>Available:</strong></td>
+            <td><strong>Up:</strong></td>
             <td class="right aligned">
-              <% if @check.available? %>
+              <% if @check.up? %>
                 <i class="thumbs up icon green"></i>
               <% else %>
                 <i class="thumbs down icon red"></i>

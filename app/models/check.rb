@@ -3,12 +3,14 @@ class Check < ApplicationRecord
 
   enum status: { down: 0, up: 1, limbo: 2 }
 
+  # Stale checks are the ones that doesn't have a successful ping, with a
+  # creation time within <interval> minutes.
   scope :stale, -> do
     clauses = [
       "pings.created_at < now() - checks.interval * interval '1 min'",
       "pings.id IS NULL"
     ]
-    left_joins(:pings).where(clauses.join(" OR ")).distinct
+    up.left_joins(:pings).where(clauses.join(" OR ")).distinct
   end
 
   def self.protocols

@@ -17,7 +17,7 @@
         <th>Interval</th>
         <th>Protocol</th>
         <th>Url</th>
-        <th class="center aligned">Available</th>
+        <th class="center aligned">Up</th>
         <th class="center aligned"colspan="2">Actions</th>
       </tr>
     </thead>
@@ -30,7 +30,7 @@
           <td><%= check.protocol %></td>
           <td><%= check.url %></td>
           <td class="center aligned">
-            <% if check.available? %>
+            <% if check.up? %>
               <i class="thumbs up icon green"></i>
             <% else %>
               <i class="thumbs down icon red"></i>
