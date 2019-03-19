@@ -1,6 +1,8 @@
 class Check < ApplicationRecord
   has_many :pings, dependent: :delete_all
 
+  enum status: { down: 0, up: 1, limbo: 2 }
+
   scope :stale, -> do
     clauses = [
       "pings.created_at < now() - checks.interval * interval '1 min'",
