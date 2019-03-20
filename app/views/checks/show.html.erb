@@ -43,7 +43,7 @@
           <tr>
             <td><strong>Up:</strong></td>
             <td class="right aligned">
-              <% if @check.up? %>
+              <% unless @check.down? %>
                 <i class="thumbs up icon green"></i>
               <% else %>
                 <i class="thumbs down icon red"></i>

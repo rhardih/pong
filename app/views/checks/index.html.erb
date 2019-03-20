@@ -30,7 +30,7 @@
           <td><%= check.protocol %></td>
           <td><%= check.url %></td>
           <td class="center aligned">
-            <% if check.up? %>
+            <% unless check.down? %>
               <i class="thumbs up icon green"></i>
             <% else %>
               <i class="thumbs down icon red"></i>
