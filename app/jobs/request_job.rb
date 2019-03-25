@@ -32,7 +32,7 @@ class RequestJob < ApplicationJob
     check.pings.create!(response_time: response_time)
     check.update!(retries: 0)
 
-    if check.down?
+    unless check.up?
       notify_up(check)
       check.up!
     end

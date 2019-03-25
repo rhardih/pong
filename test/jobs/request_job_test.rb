@@ -57,12 +57,14 @@ class RequestJobTest < ActiveJob::TestCase
   end
 
   test "that check is marked as up on successful request" do
-    check = checks(:down)
-    stub_request(:any, "#{check.protocol}://#{check.url}")
+    [:down, :limbo].each do |s|
+      check = checks(s)
+      stub_request(:any, "#{check.protocol}://#{check.url}")
 
-    RequestJob.perform_now(check)
+      RequestJob.perform_now(check)
 
-    assert(check.up?)
+      assert(check.up?)
+    end
   end
 
   test "that UP alert mail is delivered when check comes back up" do
