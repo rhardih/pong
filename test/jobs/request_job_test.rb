@@ -74,7 +74,6 @@ class RequestJobTest < ActiveJob::TestCase
     # this helper doesn't work as expected for some reason
     #assert_enqueued_email_with AlertMailer, :up_email do
       RequestJob.perform_now(check)
-      assert_enqueued_emails 1
       assert enqueued_jobs.first[:args][0...2] == ["AlertMailer", "up_email"]
     #end
   end
@@ -87,7 +86,6 @@ class RequestJobTest < ActiveJob::TestCase
 
     #assert_enqueued_email_with AlertMailer, :down_email do
       RequestJob.perform_now(check)
-      assert_enqueued_emails 1
       assert enqueued_jobs.first[:args][0...2] == ["AlertMailer", "down_email"]
     #end
   end
