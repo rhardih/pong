@@ -5,5 +5,8 @@
 set -e
 
 docker-compose build web
-docker tag pong_web rhardih/pong_web:latest
-docker push rhardih/pong_web
+
+docker tag pong_web rhardih/pong:$(cat VERSION)
+docker tag pong_web rhardih/pong:latest
+
+docker push rhardih/pong
