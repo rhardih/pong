@@ -5,7 +5,7 @@ require 'telegram/bot'
 class TelegramNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(check, up:)
+  def perform(check, up:, reason: "")
     key = ENV['TELEGRAM_API_KEY']
     mid = ENV['TELEGRAM_CHAT_ID']
 
@@ -24,7 +24,10 @@ class TelegramNotificationJob < ApplicationJob
     else
       message = ApplicationController.renderer.render({
         template: 'alert_mailer/down_email.text',
-        locals: { :@check => check }
+        locals: {
+          :@check => check,
+          :@reason => reason
+        }
       })
     end
 

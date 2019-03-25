@@ -30,10 +30,10 @@ class TelegramNotificationJobTest < ActiveJob::TestCase
     stub_request(:post, "https://api.telegram.org/botfoo/sendMessage").with(
       body: {
         chat_id: "bar",
-        text: "Pong Alert\n\nUp is down.\n"
+        text: "Pong Alert\n\nUp is down.\n\nReason: Lorem ipsum.\n"
       }).to_return(status: 200, body: "{}")
 
-    TelegramNotificationJob.perform_now(check, up: false)
+    TelegramNotificationJob.perform_now(check, up: false, reason: "Lorem ipsum")
 
     assert_requested :post, "https://api.telegram.org/botfoo/sendMessage"
   end

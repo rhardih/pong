@@ -10,6 +10,7 @@ class AlertMailer < ApplicationMailer
 
   def down_email
     @check = params[:check]
+    @reason = params[:reason]
     @last = @check.pings.last
 
     mail to: default_receiver, subject: "DOWN alert: #{@check.name} (#{@check.url}) is DOWN"

@@ -6,7 +6,7 @@ class AlertMailerPreview < ActionMailer::Preview
   end
 
   def down_email
-    AlertMailer.with(check: Check.first).down_email
+    AlertMailer.with(check: Check.first, reason: "404 - Not Found").down_email
   end
 
 end

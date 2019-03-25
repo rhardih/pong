@@ -19,13 +19,13 @@ class RequestJob < ApplicationJob
     when Net::HTTPSuccess
       success(check, time.real * 1000)
     else
-      failure(check)
+      failure(check, "#{res.code} - #{res.message}")
     end
 
   rescue Exception => e
     logger.error(e)
 
-    failure(check)
+    failure(check, e.message)
   end
 
   def success(check, response_time)
@@ -38,14 +38,14 @@ class RequestJob < ApplicationJob
     end
   end
 
-  def failure(check)
+  def failure(check, reason)
     if check.up?
       check.limbo!
     elsif check.limbo?
       if check.retries > Pong.retry_max
         check.down!
         check.update!(retries: 0)
-        notify_down(check)
+        notify_down(check, reason)
       else
         check.update!(retries: check.retries + 1)
       end
@@ -60,11 +60,11 @@ class RequestJob < ApplicationJob
     end
   end
 
-  def notify_down(check)
-    AlertMailer.with(check: check).down_email.deliver_later
+  def notify_down(check, reason)
+    AlertMailer.with(check: check, reason: reason).down_email.deliver_later
 
     if Pong.telegram_enabled?
-      TelegramNotificationJob.perform_later(check, up: false)
+      TelegramNotificationJob.perform_later(check, up: false, reason: reason)
     end
   end
 end

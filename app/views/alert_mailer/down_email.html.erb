@@ -2,4 +2,6 @@
 
 <p>
 <strong><%= @check.name %></strong> is down.<% unless @last.nil? %> Last seen at <%= @last.created_at %>.<% end %>
+<br><br>
+<strong>Reason:</strong> <%= @reason %>.
 </p>

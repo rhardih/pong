@@ -92,6 +92,25 @@ class RequestJobTest < ActiveJob::TestCase
     #end
   end
 
+  test "that DOWN alert mail is delivered when check times out" do
+    check = checks(:limbo)
+    check.retries = Pong.retry_max + 1
+    stub_request(:any, "#{check.protocol}://#{check.url}").to_timeout
+
+    RequestJob.perform_now(check)
+
+    assert enqueued_jobs.first[:args][0...2] == ["AlertMailer", "down_email"]
+
+    actual_job_hash = enqueued_jobs.first[:args][3]
+    expected_job_hash = {
+      "check" => { "_aj_globalid" => check.to_global_id.to_s },
+      "reason" => "execution expired"
+    }
+
+    # hash comparison, meaning keys and values of expected is included in actual
+    assert actual_job_hash >= expected_job_hash
+  end
+
   test "that Telegram notification is delivered when check comes back up" do
     check = checks(:down)
     stub_request(:any, "#{check.protocol}://#{check.url}")
@@ -107,10 +126,15 @@ class RequestJobTest < ActiveJob::TestCase
     check = checks(:limbo)
     check.retries = Pong.retry_max + 1
     stub_request(:any, "#{check.protocol}://#{check.url}").
-      to_return(status: 404)
+      to_return(status: [404, "Eh, nothing here bud"])
 
     Pong.stub(:telegram_enabled?, true) do
-      assert_enqueued_with(job: TelegramNotificationJob, args: [check, up: false]) do
+      args = [check, {
+        up: false,
+        reason: "404 - Eh, nothing here bud"
+      }]
+
+      assert_enqueued_with(job: TelegramNotificationJob, args: args) do
         RequestJob.perform_now(check)
       end
     end
