@@ -2,6 +2,11 @@
 
 #content {
   padding: 5em 0;
+  min-height: 100vh;
+}
+
+#version {
+  text-align: right;
 }
 
 .actions > *:last-child {

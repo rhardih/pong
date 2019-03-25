@@ -27,6 +27,12 @@ module Pong
   end
 
   def self.version
-    "v#{ENV['VERSION']" || 'v?'
+    value = "v#{ENV['VERSION']}" || "v?"
+
+    if Rails.env.development?
+      "#{value} (Development)"
+    else
+      value
+    end
   end
 end
