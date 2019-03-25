@@ -5,7 +5,7 @@
 A minimal availability monitoring system with email alerts and push notifications.
 
 
-[Changelog](https://github.com/rhardih/pong/blob/master/CHANGELOG.md)
+## [Changelog](https://github.com/rhardih/pong/blob/master/CHANGELOG.md)
 
 ![Index](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/index.png)|![Show](https://media.githubusercontent.com/media/rhardih/pong/master/screenshots/show.png)
 |:-:|:-:|
