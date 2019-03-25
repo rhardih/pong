@@ -149,7 +149,7 @@ Remember to create and initialize the database as well.
 
 In order to somewhat alleviate spurious alert triggerings, when a request for a check fails, it is put into an intermediate state of *limbo*, before being definitively marked as being *down*. When in *limbo*, a check is performed every minute until it either comes back *up*, or is finally marked as *down* after a set number of retries each failed as well. Below is transition diagram illustrating how the status of a Check changes:
 
-![Check status](https://github.com/rhardih/pong/raw/master/diagrams/check-status-transition.svg)
+![Check status](https://media.githubusercontent.com/media/rhardih/pong/master/diagrams/check-status-transition.png)
 
 One thing to note, is that when a check is either in *limbo* or is *down*, its
 interval is disregarded, and a request is triggered every time the queue job is
