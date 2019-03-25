@@ -1,7 +1,7 @@
 version: '3.4'
 
 x-default: &default
-  image: web
+  image: pong_web
   depends_on:
     - db
     - redis

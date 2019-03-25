@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Build, tag and push the latest version of Pong to docker hub
+
+set -e
+
+docker-compose build web
+docker tag pong_web rhardih/pong_web:latest
+docker push rhardih/pong_web

@@ -1,7 +1,6 @@
 version: '3.4'
 
 x-default: &default
-  image: web
   volumes:
     - .:/pong
   depends_on:
@@ -16,10 +15,12 @@ services:
     build: .
   test:
     <<: *default
-    image: web
+    image: pong_web
     command: bin/spring server
     environment:
       - RAILS_ENV=test
+    depends_on:
+      - web
   mailcatcher:
     image: schickling/mailcatcher
     ports:
