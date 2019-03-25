@@ -23,6 +23,6 @@ module Pong
   end
 
   def self.retry_max
-    return ENV['RETRY_MAX'].to_i || 3
+    ENV['RETRY_MAX'].to_i || 3
   end
 end
