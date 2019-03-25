@@ -1,5 +1,8 @@
 FROM ruby:2.6.1-alpine
 
+ARG VERSION
+ENV VERSION $VERSION
+
 RUN apk add --update \
       build-base \
       nodejs \

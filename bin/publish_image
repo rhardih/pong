@@ -4,9 +4,11 @@
 
 set -e
 
-docker-compose build web
+version=$(cat VERSION)
 
-docker tag pong_web rhardih/pong:$(cat VERSION)
+docker-compose build --build-arg VERSION=$version web
+
+docker tag pong_web rhardih/pong:$version
 docker tag pong_web rhardih/pong:latest
 
 docker push rhardih/pong

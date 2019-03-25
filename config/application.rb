@@ -25,4 +25,8 @@ module Pong
   def self.retry_max
     ENV['RETRY_MAX'].to_i || 3
   end
+
+  def self.version
+    "v#{ENV['VERSION']" || 'v?'
+  end
 end
