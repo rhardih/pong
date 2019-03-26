@@ -4,15 +4,14 @@
 
 A minimal availability monitoring system with email alerts and push notifications.
 
-## [Changelog](https://github.com/rhardih/pong/blob/master/CHANGELOG.md)
+- [Changelog](https://github.com/rhardih/pong/blob/master/CHANGELOG.md)
+- [Screenshots](https://github.com/rhardih/pong/blob/master/screenshots)
 
-## [Screenshots](https://github.com/rhardih/pong/blob/master/screenshots)
+## Requirements
 
-## System dependencies
-
-Pong is a dockerized Rails application run via docker-compose, so both
-[docker](https://www.docker.com/get-started) and
-[compose](https://docs.docker.com/compose/install/) is a requirement.
+Pong is a dockerized Rails application run via docker-compose, so both a host
+running [docker](https://www.docker.com/get-started) and a client with
+[compose](https://docs.docker.com/compose/install/) are required.
 
 ## Configuration
 
@@ -30,8 +29,8 @@ alert receiver as an [Authorized
 Recipient](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients)
 in the mailgun account settings.
 
-The application expects the following environment variables, either added the
-the default compose file, or added in the
+The application expects the following environment variables, either added in the
+default compose file, or added in the
 [.env](https://github.com/rhardih/pong/blob/master/.env) file.
 
 ```
@@ -41,14 +40,15 @@ EMAIL_SENDER
 EMAIL_RECEIVER
 ```
 
-The sender is set as as default from address for all alerts, and the receiver is
-the target address for all alert mailings.
+The sender is set as as default *from* address for all alerts, and the receiver
+is the target address for all alert mailings.
 
 For now Pong only supports a single global receiver.
 
 #### Push (via [Telegram](telegram.org))
 
-Pong supports push notifications, via direct chat messages over Telegram. This requires creating a dedicated [Telegram bot and corresponding API key](https://core.telegram.org/#bot-api).
+Pong supports push notifications, via direct chat messages over Telegram. This
+requires creating a dedicated [Telegram bot and corresponding API key](https://core.telegram.org/#bot-api).
 
 Here's the necessary steps:
 
@@ -147,7 +147,13 @@ Remember to create and initialize the database as well.
 
 ### Check
 
-In order to somewhat alleviate spurious alert triggerings, when a request for a check fails, it is put into an intermediate state of *limbo*, before being definitively marked as being *down*. When in *limbo*, a check is performed every minute until it either comes back *up*, or is finally marked as *down* after a set number of retries each failed as well. Below is transition diagram illustrating how the status of a Check changes:
+In order to somewhat alleviate spurious alert triggerings, when a request for a
+check fails, it is put into an intermediate state of *limbo*. If a set number of
+subsequent request attempts are still failing, the check will then be marked as
+being *down*
+
+Below is transition diagram illustrating how the status of a Check changes:
+
 
 ![Check status](https://media.githubusercontent.com/media/rhardih/pong/master/diagrams/check-status-transition.png)
 
