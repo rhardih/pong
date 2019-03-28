@@ -78,6 +78,14 @@ class RequestJobTest < ActiveJob::TestCase
     #end
   end
 
+  test "that there's no alert mail when check comes back up from limbo" do
+    check = checks(:limbo)
+    stub_request(:any, "#{check.protocol}://#{check.url}")
+
+    RequestJob.perform_now(check)
+    assert_no_enqueued_jobs
+  end
+
   test "that DOWN alert mail is delivered when check goes down" do
     check = checks(:limbo)
     check.retries = Pong.retry_max + 1
