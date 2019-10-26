@@ -74,7 +74,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.2)
       xpath (~> 3.2)
-    chartkick (3.0.2)
+    chartkick (3.2.1)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     chromedriver-helper (2.1.0)
@@ -285,7 +285,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)
-  chartkick (~> 3.0.2)
+  chartkick (~> 3.2.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
   groupdate (~> 4.1.1)
@@ -312,4 +312,4 @@ RUBY VERSION
    ruby 2.6.1p33
 
 BUNDLED WITH
-   1.17.2
+   1.17.3
