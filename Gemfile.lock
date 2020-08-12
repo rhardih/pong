@@ -64,7 +64,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.2)
-    chartkick (3.3.0)
+    chartkick (3.4.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (4.2.2)
@@ -261,7 +261,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
-  chartkick (~> 3.3.0)
+  chartkick (~> 3.4.0)
   coffee-rails (~> 4.2)
   groupdate (~> 4.1.1)
   listen (>= 3.0.5, < 3.2)
