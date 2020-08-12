@@ -73,6 +73,6 @@ gem 'resque-scheduler', git: 'https://github.com/resque/resque-scheduler'
 gem 'mailgun-ruby', '~>1.1.6'
 
 gem 'groupdate', '~> 4.1.1'
-gem "chartkick", "~> 3.3.0"
+gem "chartkick", "~> 3.4.0"
 
 gem 'telegram-bot-ruby', '~> 0.8.6.1'
