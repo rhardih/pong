@@ -144,7 +144,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.1.6)
     racc (1.6.2)
-    rack (2.2.6.3)
+    rack (2.2.6.4)
     rack-protection (3.0.5)
       rack
     rack-test (1.1.0)
