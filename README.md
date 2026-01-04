@@ -1,5 +1,13 @@
 # Pong
 
+## ⚠️ DEPRECATED
+
+This project is no longer maintained. Please consider using [Uptime
+Kuma](https://github.com/louislam/uptime-kuma) instead, which provides a
+modern, feature-rich uptime monitoring solution with a beautiful web interface.
+
+---
+
 [![Build Status](https://travis-ci.org/rhardih/pong.svg?branch=master)](https://travis-ci.org/rhardih/pong)
 
 A minimal availability monitoring system with email alerts and push notifications.
